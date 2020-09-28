@@ -6,19 +6,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class FrmOmok02 extends JFrame {
 
-	private boolean flagTurn = true;
+	private boolean flagTurn = true; // true면 흰돌
+	private boolean flagIng = true; // true면 게임중
 	private JPanel contentPane;
-	private JLabel[][] arr2d = new JLabel[10][10];
-	private int[][] int2d = new int[10][10];
+	private JLabel[][] arr2d = new JLabel[10][10]; // JLabel을 2차원배열
+	private int[][] int2d = new int[10][10]; // 편하게 계산하기 위함
 	private ImageIcon iie = new ImageIcon(FrmOmok02.class.getResource("/day04/0.jpg")); // 자주사용하는것 전역변수
 	private ImageIcon iiw = new ImageIcon(FrmOmok02.class.getResource("/day04/1.jpg")); // 자주사용하는것 전역변수
 	private ImageIcon iib = new ImageIcon(FrmOmok02.class.getResource("/day04/2.jpg")); // 자주사용하는것 전역변수
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,7 +64,6 @@ public class FrmOmok02 extends JFrame {
 				}
 			}
 		}
-
 	}
 
 
@@ -85,72 +87,240 @@ public class FrmOmok02 extends JFrame {
 				lbl.setBounds((j * 75), (i * 75), 75, 75);
 
 				lbl.addMouseListener(new MouseAdapter() {
+					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-
-						JLabel temp = (JLabel) e.getComponent();
-						System.out.println(temp.getText());
-
-						String a = temp.getText();
-
-						String[] arr = a.split(",");
-
-						int ii = Integer.parseInt(arr[0]);
-						int jj = Integer.parseInt(arr[1]);
-
-						if (int2d[ii][jj] > 0) {
-							return;
-						}
-						
-						int cnt_stone = 1;
-						if (flagTurn) {
-							int2d[ii][jj] = 1;
-							cnt_stone = 1;
-						} else {
-							int2d[ii][jj] = 2;
-							cnt_stone = 2;
-						}
-
-						myRender();
-						
-						int up_cnt = getUp(ii,jj,cnt_stone);
-						System.out.println(up_cnt);
-						flagTurn = !flagTurn;
-
+						myClick(e);
 					}
-
 				});
 
 				contentPane.add(lbl);
 				arr2d[i][j] = lbl;
-
 			}
-
 		}
-
 		showInt2d();
 		myRender();
-
 	}
 
-	public int getUp(int ii, int jj, int cnt_stone) {
-		int cnt = 0;
+	
+	public void myClick(MouseEvent e) {
 		
-		int i = ii;
-		int j = jj;
-		
-		while(true) {
-			
-			
-			if(cnt_stone == int2d[i][j]) {
-				cnt++;
-				i--;
-				j--;
-			} else {
-				break;
-			}
+		if (!flagIng) {
+			return;
 		}
 		
+		JLabel temp = (JLabel) e.getComponent();
+		System.out.println(temp.getText());
+
+		String a = temp.getText();
+
+		String[] arr = a.split(",");
+
+		int ii = Integer.parseInt(arr[0]);
+		int jj = Integer.parseInt(arr[1]);
+
+		if (int2d[ii][jj] > 0) {
+			return;
+		}
+		
+		int cnt_stone = 1;
+		
+		if (flagTurn) {
+			int2d[ii][jj] = 1;
+			cnt_stone = 1;
+		} else {
+			int2d[ii][jj] = 2;
+			cnt_stone = 2;
+		}
+
+		myRender();
+		
+		int up_cnt = getUp(ii,jj,cnt_stone);
+		int dw_cnt = getDw(ii,jj,cnt_stone);
+		int le_cnt = getLe(ii,jj,cnt_stone);
+		int ri_cnt = getRi(ii,jj,cnt_stone);
+		int uple_cnt = getUpLe(ii,jj,cnt_stone);
+		int upri_cnt = getUpRi(ii,jj,cnt_stone);
+		int dwle_cnt = getDwLe(ii,jj,cnt_stone);
+		int dwri_cnt = getDwRi(ii,jj,cnt_stone);
+		
+		int[] cnt5p = new int[4];
+		
+		cnt5p[0] = up_cnt + dw_cnt + 1;
+		cnt5p[1] = le_cnt + ri_cnt + 1;
+		cnt5p[2] = uple_cnt + dwri_cnt + 1;
+		cnt5p[3] = upri_cnt + dwle_cnt + 1;
+		
+		
+		for(int cnt : cnt5p) {
+			
+			if(cnt == 5) {
+				
+				if(flagTurn) {
+					JOptionPane.showMessageDialog(null, "흰돌이 이겼습니다.");
+				} else {
+					JOptionPane.showMessageDialog(null, "검은돌이 이겼습니다.");
+				}
+				flagIng = false;
+			}
+			
+		}
+		
+		System.out.println("up_cnt : " + up_cnt);
+		System.out.println("dw_cnt : " + dw_cnt);
+		System.out.println("le_cnt : " + le_cnt);
+		System.out.println("ri_cnt : " + ri_cnt);
+
+		System.out.println("uple_cnt : " + uple_cnt);
+		System.out.println("upri_cnt : " + upri_cnt);
+		System.out.println("dwle_cnt : " + dwle_cnt);
+		System.out.println("dwri_cnt : " + dwri_cnt);
+		
+		flagTurn = !flagTurn;
+		
+	}
+	
+	public int getDwRi(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii++;
+				jj++;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	public int getDwLe(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii++;
+				jj--;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	
+	public int getUpRi(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii--;
+				jj++;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	public int getUpLe(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii--;
+				jj--;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+
+	
+	public int getRi(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				jj++;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	public int getLe(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			
+			while(true) {
+				jj--;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	public int getDw(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii++;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
+		return cnt;
+	}
+	
+	
+	public int getUp(int ii, int jj, int cnt_stone) {
+		int cnt = 0;
+		try {
+			while(true) {
+				ii--;
+				if(int2d[ii][jj] == cnt_stone) {
+					cnt++;
+				} else {
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("line out");
+		}
 		return cnt;
 	}
 
