@@ -23,6 +23,7 @@ class WindowClass(QMainWindow, form_class) :
                 pb.setIconSize(QtCore.QSize(75,75))
                 pb.setIcon(self.ie)
                 pb.clicked.connect(self.myclick)
+                pb.setWhatisThis("1,2")
         
         
     def myclick(self):
