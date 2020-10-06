@@ -19,7 +19,7 @@ public class Tetris02 extends JFrame {
 	public int[][] scrin2D = new int[20][10];
 
 	public Block block = new Block();
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,7 +50,7 @@ public class Tetris02 extends JFrame {
 		contentPane.setLayout(null);
 
 		setBlock2DWithBlock();
-		
+
 		stack2D[19][0] = 11;
 		stack2D[19][1] = 11;
 		stack2D[19][2] = 11;
@@ -62,14 +62,14 @@ public class Tetris02 extends JFrame {
 				JLabel lbl = new JLabel("");
 				lbl.setBackground(new Color(0, 100, 150));
 				lbl.setBounds((j * 25), (i * 25), 24, 24);
-				lbl.setOpaque(true); 
+				lbl.setOpaque(true);
 				contentPane.add(lbl);
 
 			}
 		}
 
 		System.out.println(block);
-		
+
 		printBlock2D();
 		printStack2D();
 
@@ -78,7 +78,7 @@ public class Tetris02 extends JFrame {
 	public void myPress(KeyEvent e) {
 
 		int keycode = e.getKeyCode();
-		
+
 		// 38:ю╖, 40:╢ы©Н, 37:аб, 39:©Л
 		if (keycode == 38) {
 
@@ -94,7 +94,7 @@ public class Tetris02 extends JFrame {
 		}
 		setBlock2DWithBlock();
 		printBlock2D();
-		
+
 	}
 
 	public void setBlock2DWithBlock() {
@@ -103,10 +103,10 @@ public class Tetris02 extends JFrame {
 				block2D[i][j] = 0;
 			}
 		}
-		block2D[block.i-1][block.j] = block.kind;
+		block2D[block.i - 1][block.j] = block.kind;
 		block2D[block.i][block.j] = block.kind;
-		block2D[block.i+1][block.j] = block.kind;
-		block2D[block.i+1][block.j-1] = block.kind;
+		block2D[block.i + 1][block.j] = block.kind;
+		block2D[block.i + 1][block.j - 1] = block.kind;
 	}
 
 	public void printStack2D() {
