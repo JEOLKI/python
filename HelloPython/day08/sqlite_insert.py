@@ -1,16 +1,17 @@
 import sqlite3
 
-conn = sqlite3.connect('myDB.db')
+#conn = sqlite3.connect('myDB.db')
 
-cursor = conn.cursor() #커서생성
+# Autocommit 사용시:
+conn = sqlite3.connect("myDB.db", isolation_level=None)
 
-sql = "insert into mytable values(:1,:2,:3)"
-data=('2','2','2')
+cursor = conn.cursor()
 
-cursor.execute(sql,data)
+sql = "insert into mytable (col01,col02,col03) values(?,?,?)"
 
-cursor.close()
-conn.commit() #JDBC는 오토 커밋 python은 오토커밋이 아니다.
+cursor.execute(sql, ('2','2','2'))
+
+#conn.commit()
 conn.close()
 
 

@@ -306,7 +306,6 @@ public class FrmOmok02 extends JFrame {
 		return cnt;
 	}
 	
-	
 	public int getUp(int ii, int jj, int cnt_stone) {
 		int cnt = 0;
 		try {
