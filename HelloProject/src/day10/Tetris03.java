@@ -1,16 +1,17 @@
-package day09;
+package day10;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class Tetris02 extends JFrame {
+public class Tetris03 extends JFrame {
 
 	private JPanel contentPane;
 
@@ -20,13 +21,13 @@ public class Tetris02 extends JFrame {
 	public int[][] stack2D = new int[20][10];
 	public int[][] scrin2D = new int[20][10];
 
-	public Block block = new Block(3);
+	public Block block = new Block();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tetris02 frame = new Tetris02();
+					Tetris03 frame = new Tetris03();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +36,7 @@ public class Tetris02 extends JFrame {
 		});
 	}
 
-	public Tetris02() {
+	public Tetris03() {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -52,11 +53,6 @@ public class Tetris02 extends JFrame {
 		contentPane.setLayout(null);
 
 		setBlock2DWithBlock();
-
-		stack2D[19][0] = 12;
-		stack2D[19][1] = 12;
-		stack2D[19][2] = 12;
-		stack2D[19][3] = 12;
 
 		for (int i = 0; i < lbl2D.length; i++) {
 			for (int j = 0; j < lbl2D[i].length; j++) {
@@ -143,6 +139,17 @@ public class Tetris02 extends JFrame {
 
 	public void myPress(KeyEvent e) {
 
+		// 벽과 충돌을 판별
+		boolean flag_col_bound = false;
+
+		// 방향키 아래 눌렀을때의 충돌체크
+		boolean flag_down = false;
+
+		// 충돌전의 값을 저장
+		int pre_status = block.status;
+		int pre_i = block.i;
+		int pre_j = block.j;
+
 		int keycode = e.getKeyCode();
 
 		// 38:위, 40:다운, 37:좌, 39:우
@@ -151,6 +158,7 @@ public class Tetris02 extends JFrame {
 		}
 		if (keycode == 40) {
 			block.i++;
+			flag_down = true;
 		}
 		if (keycode == 37) {
 			block.j--;
@@ -159,14 +167,69 @@ public class Tetris02 extends JFrame {
 			block.j++;
 		}
 
-		setBlock2DWithBlock();
+		System.out.println(block);
+
+		try {
+			setBlock2DWithBlock();
+		} catch (Exception e2) {
+			flag_col_bound = true;
+		}
 
 		moveStackBlock2Scrin();
+
+		boolean flag_collision = isCollision();
+		if (flag_collision || flag_col_bound) {
+			block.status = pre_status;
+			block.i = pre_i;
+			block.j = pre_j;
+			setBlock2DWithBlock();
+			moveStackBlock2Scrin();
+			
+			// 블록끼리 충돌하면
+			if (flag_down) {
+				moveBlock2Stack();
+				block.init();
+				
+				setBlock2DWithBlock();
+				moveStackBlock2Scrin();
+			}
+
+		}
+
+		System.out.println("flag_collision : " + flag_collision);
+		System.out.println("flag_col_bound : " + flag_col_bound);
 
 		myrender();
 
 		print2D(scrin2D);
 
+	}
+
+	public void moveBlock2Stack() {
+		for (int i = 0; i < block2D.length; i++) {
+			for (int j = 0; j < block2D[i].length; j++) {
+
+				if ( block2D[i][j] > 0 ) {
+					stack2D[i][j] = block2D[i][j]+10;
+				}
+
+			}
+		}
+
+	}
+
+	public boolean isCollision() {
+
+		for (int i = 0; i < scrin2D.length; i++) {
+			for (int j = 0; j < scrin2D[i].length; j++) {
+
+				if (stack2D[i][j] > 0 && block2D[i][j] > 0) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public void changeBlockStatus() {
