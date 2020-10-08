@@ -22,6 +22,7 @@ public class Block {
 	public void init() {
 		
 		kind = (int) (Math.random()*7+1);
+		//kind = 1;
 		status = 1;
 		i = 1;
 		j = 5;
