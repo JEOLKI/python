@@ -9,6 +9,7 @@ def sum(low, high):
 if __name__ == '__main__':
     t = threading.Thread(target=sum, args=(1, 100000))
     t.start()
+    print(chr(65))
      
     print("Main Thread")
      
