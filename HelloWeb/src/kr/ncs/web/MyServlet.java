@@ -1,4 +1,4 @@
-/*package kr.ncs.web;
+package kr.ncs.web;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("hello sysout");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -19,4 +20,3 @@ public class MyServlet extends HttpServlet {
 	}
 
 }
-*/
