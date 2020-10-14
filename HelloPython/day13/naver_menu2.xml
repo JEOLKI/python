@@ -1,0 +1,44 @@
+<ul class="list_menu" data-maxpage="1">
+            <li class="nophoto_type menu_fst" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">매운맛 두부두루치기 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>11,000</em>
+                    
+                </div>
+            </li>
+            <li class="nophoto_type" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">중간맛 두부두루치기 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>11,000</em>
+                    
+                </div>
+            </li>
+            <li class="nophoto_type" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">순한맛 두부두루치기 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>11,000</em>
+                    
+                </div>
+            </li>
+            <li class="nophoto_type" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">매운맛 두부+오징어 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>16,000</em>
+                    
+                </div>
+            </li>
+            <li class="nophoto_type" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">중간맛 두부+오징어 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>16,000</em>
+                    
+                </div>
+            </li>
+            <li class="nophoto_type opened_last" data-page="1"><!-- 이미지가 있는 경우 -->
+                <div class="info_menu">
+                    <em class="screen_out">명: </em><span class="loss_word">순한맛 두부+오징어 (소)</span>
+                    <em class="price_menu"><span class="screen_out">가격: </span>16,000</em>
+                    
+                </div>
+            </li>
+    </ul>

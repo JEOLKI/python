@@ -4,11 +4,6 @@ import os
 import sys
 import urllib.request
 
-## parser.py
-from bs4 import BeautifulSoup
-
-# DB저장
-import sqlite3
 
 client_id = "06IaFp7HOI08Va_qibuP"
 client_secret = "lhtSbU3LQI"
@@ -26,12 +21,24 @@ if(rescode==200):
 else:
     print("Error Code:" + rescode)
     
-## HTML 소스 가져오기
-soup = BeautifulSoup(response_body, 'xml')
+    
+## parser.py
+from bs4 import BeautifulSoup
 
-myitems = soup.select(
+## HTML 소스 가져오기
+html = response_body.decode('utf-8')
+
+soup = BeautifulSoup(html, 'html.parser')
+
+items = soup.select(
     'item'
     )
+
+for item in items:
+    print(item)
+
+# DB저장
+import sqlite3
 
 conn = sqlite3.connect("naver.db", isolation_level=None)
 
@@ -39,19 +46,17 @@ cursor = conn.cursor()
 
 sql = "insert into naver (title,link,category,description,telephone,address,roadAddress,mapx,mapy) values(?,?,?,?,?,?,?,?,?)"
 
-for item in myitems:
-    title = item.find('title').text
-    link = item.find('link').text
-    category = item.find('category').text
-    description = item.find('description').text
-    telephone = item.find('telephone').text
-    
-    address = item.find('address').text
-    roadAddress = item.find('roadAddress').text
-    mapx = item.find('mapx').text
-    mapy = item.find('mapy').text
-    
-    cursor.execute(sql,(title,link,category,description,telephone,address,roadAddress,mapx,mapy))
+for item in items:
+    data=(item.title.text,
+          item.link.text,
+          item.category.text,
+          item.description.text,
+          item.telephone.text,
+          item.address.text,
+          item.roadaddress.text,
+          item.mapx.text,
+          item.mapy.text)
+    cursor.execute(sql,data)
 
 #conn.commit()
 conn.close()
