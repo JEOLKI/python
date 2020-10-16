@@ -26,14 +26,14 @@ class WindowClass(QMainWindow, form_class) :
         
         for i in range(20) :
             arr = []
-            for j in range(20) :
+            for j in range(10) :
                 label = QLabel(self)
                 label.setGeometry(25*j, 25*i, 24, 24)
                 arr.append(label)
             self.lbl2D.append(arr)
 
-        self.print2D(self.scrin2D)
         self.myrender()
+        self.print2D(self.scrin2D)
         
     def initBlock2DStack2DScrin2D(self, arr2D):
         for i in range(20):
@@ -48,16 +48,41 @@ class WindowClass(QMainWindow, form_class) :
             print(line)
     
     def myrender(self):
-        ii = 0
-        for line in self.scrin2D :
-            jj = 0
-            for item in line :
-                if self.scrin2D[ii][jj] == 0 :
-                    self.lbl2D[ii][jj].setStyleSheet("background-color : #FFFFFF")
-                elif self.scrin2D[ii][jj] == 1 :
-                    self.lbl2D[ii][jj].setStyleSheet("background-color : #00FF00")
-                jj += 1
-            ii += 1 
+        for i in range(20) :
+            for j in range(10) :
+                if self.scrin2D[i][j] == 0 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #353535")
+                    
+                if self.scrin2D[i][j] == 1 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FFA7A7")
+                if self.scrin2D[i][j] == 2 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FFC19E")
+                if self.scrin2D[i][j] == 3 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FAED7D")
+                if self.scrin2D[i][j] == 4 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #B7F0B1")
+                if self.scrin2D[i][j] == 5 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #B2CCFF")
+                if self.scrin2D[i][j] == 6 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #B5B2FF")
+                if self.scrin2D[i][j] == 7 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #D1B2FF")
+                    
+                if self.scrin2D[i][j] == 11 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FFD8D8")
+                if self.scrin2D[i][j] == 12 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FAE0D4")
+                if self.scrin2D[i][j] == 13 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #FAF4C0")
+                if self.scrin2D[i][j] == 14 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #CEFBC9")
+                if self.scrin2D[i][j] == 15 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #D9E5FF")
+                if self.scrin2D[i][j] == 16 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #DAD9FF")
+                if self.scrin2D[i][j] == 17 :
+                    self.lbl2D[i][j].setStyleSheet("background-color : #E8D9FF")
+                    
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
