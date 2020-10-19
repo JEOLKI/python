@@ -226,7 +226,8 @@ public class Tetris03 extends JFrame {
 			if (flag_down) {
 				moveBlock2Stack();
 				
-				// 사라지고 난후의 배열
+				// 사라지고 난후의 배열 
+				// ArrayList : 큐와 스택모두가능 , String : value값 정확한값으로 운용하기 위해
 				ArrayList<String> notFullStack = getNotFullStack();
 				
 				// 사라질 층의 갯수 구하기
@@ -313,6 +314,7 @@ public class Tetris03 extends JFrame {
 
 		for (int i = 0; i < stack2D.length; i++) {
 			int[] temp = stack2D[i];
+			// 한줄이 꽉 차있으면 
 			if (
 				temp[0] > 0 &&
 				temp[1] > 0 &&
@@ -326,7 +328,9 @@ public class Tetris03 extends JFrame {
 				temp[9] > 0 
 					) {
 			
-			} else {
+			} 
+			// 한줄이 꽉 차지 않았을때
+			else {
 				
 				String str_line = temp[0] + "," +
 								  temp[1] + "," + 
